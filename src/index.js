@@ -100,24 +100,65 @@ async function playRaceEngine(playerOne, playerTwo) {
     if (block === "Confronto") {
       let totalPowerResult1 = diceResult1 + player1.poder;
       let totalPowerResult2 = diceResult2 + player2.poder;
+      let randomDuel = await getRandomDuel();
 
       console.log(`${player1.nome} disputou com o ${player2.nome} ⚔`);
 
       await logRollResult(player1.nome, "poder", diceResult1, player1.poder);
       await logRollResult(player2.nome, "poder", diceResult1, player2.poder);
 
-      if (totalPowerResult1 > totalPowerResult2 && player2.poder > 0) {
-        console.log(
-          `${player1.nome} venceu o confronto! O ${player2.nome} perdeu um ponto 🐢🐢`
-        );
-        player2.pontos--;
+      if (randomDuel === "Tartaruga") {
+        console.log(`O confronto sorteado foi: ${randomDuel}`);
+
+        if (totalPowerResult1 > totalPowerResult2 && player2.poder > 0) {
+          console.log(
+            `${player1.nome} venceu o confronto! O ${player2.nome} perdeu um ponto 🐢🐢`
+          );
+          player2.pontos--;
+        }
+
+        if (totalPowerResult2 > totalPowerResult1 && player1.poder > 0) {
+          console.log(
+            `${player2.nome} venceu o confronto! O ${player1.nome} perdeu um ponto 🐢🐢`
+          );
+          player1.pontos--;
+        }
       }
 
-      if (totalPowerResult2 > totalPowerResult1 && player1.poder > 0) {
-        console.log(
-          `${player2.nome} venceu o confronto! O ${player1.nome} perdeu um ponto 🐢🐢`
-        );
-        player1.pontos--;
+      if (randomDuel === "Missel") {
+        console.log(`O confronto sorteado foi: ${randomDuel}`);
+
+        if (totalPowerResult1 > totalPowerResult2 && player2.poder > 0) {
+          console.log(
+            `${player1.nome} venceu o confronto! O ${player2.nome} perdeu um ponto 🐢🐢`
+          );
+          player2.pontos -= 2;
+        }
+
+        if (totalPowerResult2 > totalPowerResult1 && player1.poder > 0) {
+          console.log(
+            `${player2.nome} venceu o confronto! O ${player1.nome} perdeu um ponto 🐢🐢`
+          );
+          player1.pontos -= 2;
+        }
+      }
+
+      if (randomDuel === "Bazooka") {
+        console.log(`O confronto sorteado foi: ${randomDuel}`);
+
+        if (totalPowerResult1 > totalPowerResult2 && player2.poder > 0) {
+          console.log(
+            `${player1.nome} venceu o confronto! O ${player2.nome} perdeu um ponto 🐢🐢`
+          );
+          player2.pontos -= 3;
+        }
+
+        if (totalPowerResult2 > totalPowerResult1 && player1.poder > 0) {
+          console.log(
+            `${player2.nome} venceu o confronto! O ${player1.nome} perdeu um ponto 🐢🐢`
+          );
+          player1.pontos -= 3;
+        }
       }
 
       console.log(
@@ -149,8 +190,16 @@ async function logRollResult(name, typeBlock, diceResult, attribute) {
 
 async function declareWinner(player1, player2) {
   console.log(`Resultado final:`);
-  console.log(`${player1.nome}: ${player1.pontos} pontos`);
-  console.log(`${player2.nome}: ${player2.pontos} pontos`);
+  console.log(
+    player1.pontos < 0
+      ? `${player1.nome}: ${player1.pontos} pontos`
+      : `${player1.nome}: ${player1.pontos} pontos`
+  );
+  console.log(
+    player2.pontos < 0
+      ? `${player2.nome}: ${player2.pontos} pontos`
+      : `${player2.nome}: ${player2.pontos} pontos`
+  );
 
   if (player1.pontos > player2.pontos) {
     console.log(`\n ${player1.nome} venceu a corrida! 🏆`);
@@ -159,4 +208,23 @@ async function declareWinner(player1, player2) {
   } else {
     console.log("A corrida terminou em empate!");
   }
+}
+
+async function getRandomDuel() {
+  let random = Math.random();
+  let duelResult = "";
+
+  switch (true) {
+    case random < 0.5:
+      duelResult = "Tartaruga";
+      break;
+    case random > 0.9:
+      duelResult = "Missel";
+      break;
+    default:
+      duelResult = "Bazooka";
+      break;
+  }
+
+  return duelResult;
 }
