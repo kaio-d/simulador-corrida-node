@@ -24,6 +24,7 @@ async function rollDice() {
   );
 
   await playRaceEngine(player1, player2);
+  await declareWinner(player1, player2);
 })();
 
 async function getRandomBlock() {
@@ -144,4 +145,18 @@ async function logRollResult(name, typeBlock, diceResult, attribute) {
       diceResult + attribute
     }`
   );
+}
+
+async function declareWinner(player1, player2) {
+  console.log(`Resultado final:`);
+  console.log(`${player1.nome}: ${player1.pontos} pontos`);
+  console.log(`${player2.nome}: ${player2.pontos} pontos`);
+
+  if (player1.pontos > player2.pontos) {
+    console.log(`\n ${player1.nome} venceu a corrida! 🏆`);
+  } else if (player2.pontos > player1.pontos) {
+    console.log(`\n ${player2.nome} venceu a corrida! 🏆`);
+  } else {
+    console.log("A corrida terminou em empate!");
+  }
 }
